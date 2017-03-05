@@ -1,0 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const lib_1 = require("../lib");
+class MyAddonAddon extends lib_1.Addon {
+}
+exports.default = MyAddonAddon;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYWRkb24uanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL2FjYnVyZGluZS9Qcm9qZWN0cy9kZW5hbGkvZGVuYWxpLyIsInNvdXJjZXMiOlsiYXBwL2FkZG9uLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsZ0NBQStCO0FBRS9CLGtCQUFrQyxTQUFRLFdBQUs7Q0FBRztBQUFsRCwrQkFBa0QiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBBZGRvbiB9IGZyb20gJy4uL2xpYic7XG5cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIE15QWRkb25BZGRvbiBleHRlbmRzIEFkZG9uIHt9XG4iXX0=

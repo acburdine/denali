@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+/* tslint:disable:completed-docs no-empty no-invalid-this member-access */
+const ava_1 = require("ava");
+const fs = require("fs-extra");
+const path = require("path");
+const denali_1 = require("denali");
+ava_1.default('generate command > generates a blueprint', (t) => tslib_1.__awaiter(this, void 0, void 0, function* () {
+    let generate = new denali_1.CommandAcceptanceTest('generate action foobar --skip-post-install', { name: 'generate-command' });
+    let generatedFilepath = path.join(generate.dir, 'app', 'actions', 'foobar.js');
+    yield generate.run({ failOnStderr: true });
+    t.true(fs.existsSync(generatedFilepath), 'file should be generated');
+}));
+ava_1.default.todo('generate command > runs blueprints from in-repo');
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2VuZXJhdGUtdGVzdC5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMvYWNidXJkaW5lL1Byb2plY3RzL2RlbmFsaS9kZW5hbGkvIiwic291cmNlcyI6WyJ0ZXN0L2FjY2VwdGFuY2UvY29tbWFuZHMvZ2VuZXJhdGUtdGVzdC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7QUFBQSwwRUFBMEU7QUFDMUUsNkJBQXVCO0FBQ3ZCLCtCQUErQjtBQUMvQiw2QkFBNkI7QUFDN0IsbUNBQStDO0FBRS9DLGFBQUksQ0FBQywwQ0FBMEMsRUFBRSxDQUFPLENBQUM7SUFDdkQsSUFBSSxRQUFRLEdBQUcsSUFBSSw4QkFBcUIsQ0FBQyw0Q0FBNEMsRUFBRSxFQUFFLElBQUksRUFBRSxrQkFBa0IsRUFBRSxDQUFDLENBQUM7SUFDckgsSUFBSSxpQkFBaUIsR0FBRyxJQUFJLENBQUMsSUFBSSxDQUFDLFFBQVEsQ0FBQyxHQUFHLEVBQUUsS0FBSyxFQUFFLFNBQVMsRUFBRSxXQUFXLENBQUMsQ0FBQztJQUUvRSxNQUFNLFFBQVEsQ0FBQyxHQUFHLENBQUMsRUFBRSxZQUFZLEVBQUUsSUFBSSxFQUFFLENBQUMsQ0FBQztJQUMzQyxDQUFDLENBQUMsSUFBSSxDQUFDLEVBQUUsQ0FBQyxVQUFVLENBQUMsaUJBQWlCLENBQUMsRUFBRSwwQkFBMEIsQ0FBQyxDQUFDO0FBQ3ZFLENBQUMsQ0FBQSxDQUFDLENBQUM7QUFFSCxhQUFJLENBQUMsSUFBSSxDQUFDLGlEQUFpRCxDQUFDLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyIvKiB0c2xpbnQ6ZGlzYWJsZTpjb21wbGV0ZWQtZG9jcyBuby1lbXB0eSBuby1pbnZhbGlkLXRoaXMgbWVtYmVyLWFjY2VzcyAqL1xuaW1wb3J0IHRlc3QgZnJvbSAnYXZhJztcbmltcG9ydCAqIGFzIGZzIGZyb20gJ2ZzLWV4dHJhJztcbmltcG9ydCAqIGFzIHBhdGggZnJvbSAncGF0aCc7XG5pbXBvcnQgeyBDb21tYW5kQWNjZXB0YW5jZVRlc3QgfSBmcm9tICdkZW5hbGknO1xuXG50ZXN0KCdnZW5lcmF0ZSBjb21tYW5kID4gZ2VuZXJhdGVzIGEgYmx1ZXByaW50JywgYXN5bmMgKHQpID0+IHtcbiAgbGV0IGdlbmVyYXRlID0gbmV3IENvbW1hbmRBY2NlcHRhbmNlVGVzdCgnZ2VuZXJhdGUgYWN0aW9uIGZvb2JhciAtLXNraXAtcG9zdC1pbnN0YWxsJywgeyBuYW1lOiAnZ2VuZXJhdGUtY29tbWFuZCcgfSk7XG4gIGxldCBnZW5lcmF0ZWRGaWxlcGF0aCA9IHBhdGguam9pbihnZW5lcmF0ZS5kaXIsICdhcHAnLCAnYWN0aW9ucycsICdmb29iYXIuanMnKTtcblxuICBhd2FpdCBnZW5lcmF0ZS5ydW4oeyBmYWlsT25TdGRlcnI6IHRydWUgfSk7XG4gIHQudHJ1ZShmcy5leGlzdHNTeW5jKGdlbmVyYXRlZEZpbGVwYXRoKSwgJ2ZpbGUgc2hvdWxkIGJlIGdlbmVyYXRlZCcpO1xufSk7XG5cbnRlc3QudG9kbygnZ2VuZXJhdGUgY29tbWFuZCA+IHJ1bnMgYmx1ZXByaW50cyBmcm9tIGluLXJlcG8nKTtcbiJdfQ==

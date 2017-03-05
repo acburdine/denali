@@ -1,0 +1,28 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const lodash_1 = require("lodash");
+const denali_cli_1 = require("denali-cli");
+const unwrap_1 = require("../../lib/utils/unwrap");
+/**
+ * Generates a model, serializer, CRUD actions, and tests for a resource
+ *
+ * @package blueprints
+ */
+class ResourceBlueprint extends denali_cli_1.Blueprint {
+    locals(argv) {
+        let name = argv.name;
+        return { name, humanizedName: lodash_1.lowerCase(name) };
+    }
+}
+/* tslint:disable:completed-docs typedef */
+ResourceBlueprint.blueprintName = 'acceptance-test';
+ResourceBlueprint.description = 'Generates a blank acceptance test';
+ResourceBlueprint.longDescription = unwrap_1.default `
+    Usage: denali generate acceptance-test <name>
+
+    Generates a blank acceptance test, suitable for testing your app end-to-end with simulated HTTP
+    requests and responses.
+  `;
+ResourceBlueprint.params = '<name>';
+exports.default = ResourceBlueprint;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL2FjYnVyZGluZS9Qcm9qZWN0cy9kZW5hbGkvZGVuYWxpLyIsInNvdXJjZXMiOlsiYmx1ZXByaW50cy9hY2NlcHRhbmNlLXRlc3QvaW5kZXgudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSxtQ0FFZ0I7QUFDaEIsMkNBQXVDO0FBQ3ZDLG1EQUE0QztBQUU1Qzs7OztHQUlHO0FBQ0gsdUJBQXVDLFNBQVEsc0JBQVM7SUFjL0MsTUFBTSxDQUFDLElBQVM7UUFDckIsSUFBSSxJQUFJLEdBQUcsSUFBSSxDQUFDLElBQUksQ0FBQztRQUNyQixNQUFNLENBQUMsRUFBRSxJQUFJLEVBQUUsYUFBYSxFQUFFLGtCQUFTLENBQUMsSUFBSSxDQUFDLEVBQUUsQ0FBQztJQUNsRCxDQUFDOztBQWZELDJDQUEyQztBQUM3QiwrQkFBYSxHQUFHLGlCQUFpQixDQUFDO0FBQ2xDLDZCQUFXLEdBQUcsbUNBQW1DLENBQUM7QUFDbEQsaUNBQWUsR0FBRyxnQkFBTSxDQUFBOzs7OztHQUtyQyxDQUFDO0FBRVksd0JBQU0sR0FBRyxRQUFRLENBQUM7QUFabEMsb0NBbUJDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHtcbiAgbG93ZXJDYXNlXG59IGZyb20gJ2xvZGFzaCc7XG5pbXBvcnQgeyBCbHVlcHJpbnQgfSBmcm9tICdkZW5hbGktY2xpJztcbmltcG9ydCB1bndyYXAgZnJvbSAnLi4vLi4vbGliL3V0aWxzL3Vud3JhcCc7XG5cbi8qKlxuICogR2VuZXJhdGVzIGEgbW9kZWwsIHNlcmlhbGl6ZXIsIENSVUQgYWN0aW9ucywgYW5kIHRlc3RzIGZvciBhIHJlc291cmNlXG4gKlxuICogQHBhY2thZ2UgYmx1ZXByaW50c1xuICovXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBSZXNvdXJjZUJsdWVwcmludCBleHRlbmRzIEJsdWVwcmludCB7XG5cbiAgLyogdHNsaW50OmRpc2FibGU6Y29tcGxldGVkLWRvY3MgdHlwZWRlZiAqL1xuICBwdWJsaWMgc3RhdGljIGJsdWVwcmludE5hbWUgPSAnYWNjZXB0YW5jZS10ZXN0JztcbiAgcHVibGljIHN0YXRpYyBkZXNjcmlwdGlvbiA9ICdHZW5lcmF0ZXMgYSBibGFuayBhY2NlcHRhbmNlIHRlc3QnO1xuICBwdWJsaWMgc3RhdGljIGxvbmdEZXNjcmlwdGlvbiA9IHVud3JhcGBcbiAgICBVc2FnZTogZGVuYWxpIGdlbmVyYXRlIGFjY2VwdGFuY2UtdGVzdCA8bmFtZT5cblxuICAgIEdlbmVyYXRlcyBhIGJsYW5rIGFjY2VwdGFuY2UgdGVzdCwgc3VpdGFibGUgZm9yIHRlc3RpbmcgeW91ciBhcHAgZW5kLXRvLWVuZCB3aXRoIHNpbXVsYXRlZCBIVFRQXG4gICAgcmVxdWVzdHMgYW5kIHJlc3BvbnNlcy5cbiAgYDtcblxuICBwdWJsaWMgc3RhdGljIHBhcmFtcyA9ICc8bmFtZT4nO1xuXG4gIHB1YmxpYyBsb2NhbHMoYXJndjogYW55KSB7XG4gICAgbGV0IG5hbWUgPSBhcmd2Lm5hbWU7XG4gICAgcmV0dXJuIHsgbmFtZSwgaHVtYW5pemVkTmFtZTogbG93ZXJDYXNlKG5hbWUpIH07XG4gIH1cblxufVxuIl19
