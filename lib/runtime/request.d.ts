@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import * as http from 'http';
-import DenaliObject from '../metal/object';
+import { Socket } from 'net';
+import { Readable, Writable } from 'stream';
 import Route from './route';
 /**
  * Available HTTP methods (lowercased)
@@ -17,7 +18,7 @@ export declare type Method = 'get' | 'post' | 'put' | 'patch' | 'delete' | 'head
  * @package runtime
  * @since 0.1.0
  */
-export default class Request extends DenaliObject {
+export default class Request {
     /**
      * A UUID generated unqiue to this request. Useful for tracing a request through the application.
      *
@@ -61,7 +62,7 @@ export default class Request extends DenaliObject {
      *
      * @since 0.1.0
      */
-    body: object;
+    body: any;
     /**
      * The name of the original action that was invoked for this request. Used when an error occurs
      * so the error action can see the original action that was invoked.
@@ -145,6 +146,16 @@ export default class Request extends DenaliObject {
      * @since 0.1.0
      */
     readonly subdomains: string[];
+    readonly httpVersion: string;
+    readonly rawHeaders: string[];
+    readonly rawTrailers: string[];
+    readonly socket: Socket;
+    readonly statusCode: number;
+    readonly statusMessage: string;
+    readonly trailers: {
+        [key: string]: string;
+    };
+    readonly connection: Socket;
     /**
      * Returns the best match for content types, or false if no match is possible. See the docs for
      * the `accepts` module on npm for more details.
@@ -164,4 +175,28 @@ export default class Request extends DenaliObject {
      * @since 0.1.0
      */
     is(...types: string[]): string | boolean;
+    addListener(eventName: any, listener: Function): Request;
+    emit(eventName: any, ...args: any[]): boolean;
+    eventNames(): any[];
+    getMaxListeners(): number;
+    listenerCount(eventName: any): number;
+    listeners(eventName: any): Function[];
+    on(eventName: any, listener: Function): Request;
+    once(eventName: any, listener: Function): Request;
+    prependListener(eventName: any, listener: Function): Request;
+    prependOnceListener(eventName: any, listener: Function): Request;
+    removeAllListeners(eventName?: any): Request;
+    removeListener(eventName: any, listener: Function): Request;
+    setMaxListeners(n: number): Request;
+    isPaused(): boolean;
+    pause(): Request;
+    pipe(destination: Writable, options?: Object): Writable;
+    read(size?: number): string | Buffer | null;
+    resume(): Request;
+    setEncoding(encoding: string): Request;
+    unpipe(destination?: Writable): http.IncomingMessage;
+    unshift(chunk: Buffer | string | any): void;
+    wrap(stream: Readable): Readable;
+    destroy(error: Error): void;
+    setTimeout(msecs: number, callback: Function): Request;
 }

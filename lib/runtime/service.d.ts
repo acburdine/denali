@@ -11,9 +11,5 @@ import DenaliObject from '../metal/object';
  *
  * @package runtime
  */
-export default class Service extends DenaliObject {
-    /**
-     * Services should be singletons
-     */
-    static singleton: boolean;
+export default abstract class Service extends DenaliObject {
 }

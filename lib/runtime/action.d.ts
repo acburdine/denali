@@ -1,27 +1,48 @@
 /// <reference types="node" />
-import Model from '../data/model';
-import Response from './response';
-import * as http from 'http';
+import Parser from '../parse/parser';
 import DenaliObject from '../metal/object';
 import Request from './request';
+import { ServerResponse } from 'http';
+import { Dict } from '../utils/types';
+import DatabaseService from '../data/database';
 import Logger from './logger';
-import Container from './container';
-import Service from './service';
-/**
- * Constructor options for Action class
- *
- * @package runtime
- */
-export interface ActionOptions {
-    request: Request;
-    response: http.ServerResponse;
-    logger: Logger;
-    container: Container;
-}
 export interface Responder {
-    (params: any): Response | {
-        [key: string]: any;
-    } | void;
+    (params: ResponderParams): any;
+}
+/**
+ * The parser determines the exact shape and structure of the arguments object passed into your
+ * Action's respond method. However, the common convention is to at least expose the properties
+ * listed below.
+ *
+ * *Note for Typescript users:*
+ *
+ * It's possible to have a parser that returns a query object with non-string properties (i.e. your
+ * parser automatically converts the `page=4` query param into a number). In that case, you should
+ * probably define your own interface that extends from this, and use that interface to type your
+ * respond method argument.
+ */
+export interface ResponderParams {
+    body?: any;
+    query?: Dict<string>;
+    headers?: Dict<string>;
+    params?: Dict<string>;
+    [key: string]: any;
+}
+export interface RenderOptions {
+    /**
+     * The view class that should be used to render this response. Overrides the `serializer` setting.
+     * This is useful if you want complete, low-level control over the rendering process - you'll have
+     * direct access to the response object, and can use it to render however you want. Render with
+     * a streaming JSON renderer, use an HTML templating engine, a binary protocol, etc.
+     */
+    view?: string;
+    /**
+     * Explicitly set the name of the serializer that should be used to render this response. If not
+     * provided, and the response body is a Model or array of Models, it will try to find a matching
+     * serializer and use that. If it can't find the matching serializer, or if the response body is
+     * another kind of object, it will fall back to the application serializer.
+     */
+    serializer?: string;
 }
 /**
  * Actions form the core of interacting with a Denali application. They are the controller layer in
@@ -40,15 +61,7 @@ export interface Responder {
  * @package runtime
  * @since 0.1.0
  */
-declare abstract class Action extends DenaliObject {
-    /**
-     * Cached list of responder formats this action class supports.
-     */
-    private static _formats;
-    /**
-     * Cache the list of available formats this action can respond to.
-     */
-    private static formats();
+export default abstract class Action extends DenaliObject {
     /**
      * Invoked before the `respond()` method. The framework will invoke filters from parent classes
      * and mixins in the same order the mixins were applied.
@@ -60,6 +73,10 @@ declare abstract class Action extends DenaliObject {
      * than null or undefined, Denali will attempt to render that response and halt further processing
      * of the request (including remaining before filters).
      *
+     * Filters must be defined as static properties to allow Denali to extract the values. Instance
+     * fields are not visible until instantiation, so there's no way to build an "accumulated" value
+     * from each step in the inheritance chain.
+     *
      * @since 0.1.0
      */
     static before: string[];
@@ -70,25 +87,38 @@ declare abstract class Action extends DenaliObject {
      * Filters can be synchronous, or return a promise (which will pause the before/respond/after
      * chain until it resolves).
      *
+     * Filters must be defined as static properties to allow Denali to extract the values. Instance
+     * fields are not visible until instantiation, so there's no way to build an "accumulated" value
+     * from each step in the inheritance chain.
+     *
      * @since 0.1.0
      */
     static after: string[];
     /**
-     * Force which serializer should be used for the rendering of the response.
-     *
-     * By default if the response is of type Error it will use the 'error' serializer. On the other
-     * hand if it's a Model, it will use that model's serializer. Otherwise, it will use the
-     * 'application' serializer.
-     *
-     * @since 0.1.0
-     */
-    serializer: string | boolean;
-    /**
-     * The application config
-     *
-     * @since 0.1.0
+     * Application config
      */
     config: any;
+    /**
+     * Force which parser should be used for parsing the incoming request.
+     *
+     * By default it uses the application parser, but you can override with the name of the parser
+     * you'd rather use instead.
+     *
+     * @since 0.1.0
+     */
+    parser: Parser;
+    /**
+     * Automatically inject the db service into all actions
+     *
+     * @since 0.1.0
+     */
+    db: DatabaseService;
+    /**
+     * Automatically inject the logger into all actions
+     *
+     * @since 0.1.0
+     */
+    logger: Logger;
     /**
      * The incoming Request that this Action is responding to.
      *
@@ -96,41 +126,27 @@ declare abstract class Action extends DenaliObject {
      */
     request: Request;
     /**
-     * The application logger instance
+     * The outgoing HTTP server response
      *
      * @since 0.1.0
      */
-    logger: Logger;
+    response: ServerResponse;
     /**
-     * The application container
-     *
-     * @since 0.1.0
+     * Track whether or not we have rendered yet
      */
-    container: Container;
+    private hasRendered;
     /**
-     * Creates an Action that will respond to the given Request.
+     * The path to this action, i.e. 'users/create'
      */
-    constructor(options: ActionOptions);
+    actionPath: string;
     /**
-     * Fetch a model class by it's type string, i.e. 'post' => PostModel
-     *
-     * @since 0.1.0
+     * Automatically inject the db service
      */
-    modelFor(type: string): Model;
     /**
-     * Fetch a service by it's container name, i.e. 'email' => 'services/email.js'
-     *
-     * @since 0.1.0
+     * Render the response body
      */
-    service(type: string): Service;
-    /**
-     * Render some supplied data to the response. Data can be:
-     *
-     *   * a Model instance
-     *   * an array of Model instances
-     *   * a Denali.Response instance
-     */
-    private render(response);
+    render(body: any, options?: RenderOptions): Promise<void>;
+    render(status: number, body?: any, options?: RenderOptions): Promise<void>;
     /**
      * Invokes the action. Determines the best responder method for content negotiation, then executes
      * the filter/responder chain in sequence, handling errors and rendering the response.
@@ -138,33 +154,18 @@ declare abstract class Action extends DenaliObject {
      * You shouldn't invoke this directly - Denali will automatically wire up your routes to this
      * method.
      */
-    run(): Promise<Response>;
-    /**
-     * Find the best responder method for the incoming request, given the incoming request's Accept
-     * header.
-     *
-     * If the Accept header is "Accept: * / *", then the generic `respond()` method is selected.
-     * Otherwise, attempt to find the best responder method based on the mime types.
-     */
-    _pickBestResponder(): Responder;
-    [key: string]: any;
+    run(request: Request, response: ServerResponse): Promise<void>;
     /**
      * The default responder method. You should override this method with whatever logic is needed to
      * respond to the incoming request.
      *
      * @since 0.1.0
      */
-    abstract respond(params: any): Response | {
-        [key: string]: any;
-    } | void;
+    abstract respond(params: ResponderParams): any;
     /**
-     * Cached list of before filters that should be executed.
+     * Invokes the filters in the supplied chain in sequence.
      */
-    protected static _before: string[];
-    /**
-     * Cached list of after filters that should be executed.
-     */
-    protected static _after: string[];
+    private _invokeFilters(chain, parsedRequest);
     /**
      * Walk the prototype chain of this Action instance to find all the `before` and `after` arrays to
      * build the complete filter chains.
@@ -175,9 +176,4 @@ declare abstract class Action extends DenaliObject {
      * Throws if it encounters the name of a filter method that doesn't exist.
      */
     private _buildFilterChains();
-    /**
-     * Invokes the filters in the supplied chain in sequence.
-     */
-    private _invokeFilters(chain, params, haltable);
 }
-export default Action;

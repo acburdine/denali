@@ -1,5 +1,6 @@
 import Action from '../../lib/runtime/action';
-import Response from '../../lib/runtime/response';
+import Logger from '../../lib/runtime/logger';
+import FlatParser from '../../lib/parse/flat';
 /**
  * The default error action. When Denali encounters an error while processing a request, it will
  * attempt to hand off that error to the `error` action, which can determine how to respond. This is
@@ -12,24 +13,10 @@ import Response from '../../lib/runtime/response';
  */
 export default class ErrorAction extends Action {
     readonly originalAction: string;
+    logger: Logger;
+    parser: FlatParser;
     /**
      * Respond with JSON by default
      */
-    respond(params: any): Response;
-    /**
-     * Render an HTML template with the error details
-     */
-    respondWithHtml(params: any): Response;
-    /**
-     * Render the error details as a JSON payload
-     */
-    respondWithJson(params: any): Response;
-    /**
-     * Prepare the error for rendering. Santize the details of the error in production.
-     */
-    protected prepareError(error: any): Response;
-    /**
-     * Should the response include details about the error (i.e. a full stack trace)?
-     */
-    protected includeDebugInfo(): boolean;
+    respond({params}: any): Promise<void>;
 }

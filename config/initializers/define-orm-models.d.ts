@@ -1,5 +1,5 @@
 import Application from '../../lib/runtime/application';
-declare var _default: {
+declare const _default: {
     name: string;
     initialize(application: Application): Promise<void>;
 };

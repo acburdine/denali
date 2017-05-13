@@ -1,5 +1,5 @@
-import DenaliObject from '../metal/object';
 import Application from '../runtime/application';
+import { ContainerOptions } from '../metal/container';
 /**
  * The AppAcceptance class represents an app acceptance test. It spins up an in-memory instance of
  * the application under test, and exposes methods to submit simulated requests to the application,
@@ -9,25 +9,11 @@ import Application from '../runtime/application';
  * @package test
  * @since 0.1.0
  */
-export declare class AppAcceptance extends DenaliObject {
+export declare class AppAcceptance {
     /**
      * The application instance under test
      */
     application: Application;
-    constructor();
-    /**
-     * Start the application (note: this won't actually start the HTTP server, but performs all the
-     * other startup work for you).
-     *
-     * @since 0.1.0
-     */
-    start(): Promise<void>;
-    /**
-     * An internal registry of container injections.
-     */
-    protected _injections: {
-        [fullName: string]: any;
-    };
     /**
      * Default headers that are applied to each request. Useful for handling API-wide content-types,
      * sessions, etc.
@@ -37,6 +23,20 @@ export declare class AppAcceptance extends DenaliObject {
     headers: {
         [name: string]: string;
     };
+    /**
+     * An internal registry of container injections.
+     */
+    protected _injections: {
+        [fullName: string]: any;
+    };
+    constructor();
+    /**
+     * Start the application (note: this won't actually start the HTTP server, but performs all the
+     * other startup work for you).
+     *
+     * @since 0.1.0
+     */
+    start(): Promise<void>;
     /**
      * Submit a simulated HTTP request to the application.
      *
@@ -137,7 +137,7 @@ export declare class AppAcceptance extends DenaliObject {
      *
      * @since 0.1.0
      */
-    inject(name: string, value: any): void;
+    inject(name: string, value: any, options?: ContainerOptions): void;
     /**
      * Restore the original container entry for an entry that was previously overwritten by `inject()`
      *

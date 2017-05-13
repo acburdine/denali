@@ -1,10 +1,9 @@
-import DenaliObject from '../metal/object';
 /**
  * Base Descriptor class
  *
  * @package data
  */
-export declare class Descriptor extends DenaliObject {
+export declare class Descriptor {
     /**
      * What kind of descriptor is this? Used by subclasses to differentiate easily between types.
      */
@@ -43,7 +42,7 @@ export declare class Descriptor extends DenaliObject {
  * @package data
  * @since 0.1.0
  */
-export declare class Attribute extends Descriptor {
+export declare class AttributeDescriptor extends Descriptor {
     /**
      * Convenience flag for checking if this is an attribute
      */
@@ -55,7 +54,7 @@ export declare class Attribute extends Descriptor {
  * @package data
  * @since 0.1.0
  */
-export declare function attr(type: string, options?: any): Attribute;
+export declare function attr(type: string, options?: any): AttributeDescriptor;
 /**
  * The HasManyRelationship class is used to describe a 1 to many or many to many
  * relationship on your Model. You shouldn't use the HasManyRelationship class
@@ -80,7 +79,7 @@ export declare function attr(type: string, options?: any): Attribute;
  * @package data
  * @since 0.1.0
  */
-export declare class HasManyRelationship extends Descriptor {
+export declare class HasManyRelationshipDescriptor extends Descriptor {
     /**
      * Convenience flag for checking if this is a relationship
      */
@@ -96,7 +95,7 @@ export declare class HasManyRelationship extends Descriptor {
  * @package data
  * @since 0.1.0
  */
-export declare function hasMany(type: string, options?: any): HasManyRelationship;
+export declare function hasMany(type: string, options?: any): HasManyRelationshipDescriptor;
 /**
  * The HasOneRelationship class is used to describe a 1 to many or 1 to 1
  * relationship on your Model. You shouldn't use the HasOneRelationship class
@@ -121,7 +120,7 @@ export declare function hasMany(type: string, options?: any): HasManyRelationshi
  * @package data
  * @since 0.1.0
  */
-export declare class HasOneRelationship extends Descriptor {
+export declare class HasOneRelationshipDescriptor extends Descriptor {
     /**
      * Convenience flag for checking if this is a relationship
      */
@@ -137,5 +136,5 @@ export declare class HasOneRelationship extends Descriptor {
  * @package data
  * @since 0.1.0
  */
-export declare function hasOne(type: string, options?: any): HasOneRelationship;
-export declare type RelationshipDescriptor = HasManyRelationship | HasOneRelationship;
+export declare function hasOne(type: string, options?: any): HasOneRelationshipDescriptor;
+export declare type RelationshipDescriptor = HasManyRelationshipDescriptor | HasOneRelationshipDescriptor;

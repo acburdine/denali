@@ -3,9 +3,7 @@ import { IncomingMessage, ServerResponse } from 'http';
 import Route from './route';
 import { Method } from './request';
 import DenaliObject from '../metal/object';
-import Logger from './logger';
-import Container from './container';
-import Action from './action';
+import Container from '../metal/container';
 export interface RoutesCache {
     get: Route[];
     post: Route[];
@@ -66,17 +64,9 @@ export default class Router extends DenaliObject implements RouterDSL {
      */
     private middleware;
     /**
-     * The application logger instance
-     */
-    private logger;
-    /**
      * The application container
      */
     container: Container;
-    constructor(options: {
-        container: Container;
-        logger: Logger;
-    });
     /**
      * Helper method to invoke the function exported by `config/routes.js` in the context of the
      * current router instance.
@@ -121,7 +111,7 @@ export default class Router extends DenaliObject implements RouterDSL {
      * will be used to fill in the dynamic segements of the action's route (if
      * any).
      */
-    urlFor(action: string | Action, data: any): string | boolean;
+    urlFor(actionPath: string, data: any): string | boolean;
     /**
      * Shorthand for `this.route('get', ...arguments)`
      *

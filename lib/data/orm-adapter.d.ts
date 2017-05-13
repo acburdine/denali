@@ -11,9 +11,9 @@ import { RelationshipDescriptor } from './descriptors';
  */
 declare abstract class ORMAdapter extends DenaliObject {
     /**
-     * ORM Adapters should be singletons
+     * The current test transaction, if applicable
      */
-    static singleton: boolean;
+    testTransaction: any;
     /**
      * Find a record by id.
      */
@@ -21,7 +21,7 @@ declare abstract class ORMAdapter extends DenaliObject {
     /**
      * Find a single record that matches the given query.
      */
-    abstract findOne(type: string, query: any, options: any): Promise<any>;
+    abstract queryOne(type: string, query: any, options: any): Promise<any>;
     /**
      * Find all records of this type.
      */
@@ -70,7 +70,7 @@ declare abstract class ORMAdapter extends DenaliObject {
      * @param descriptor The RelationshipDescriptor of the relationship being fetch
      * @param query An optional query to filter the related records by
      */
-    abstract getRelated(model: Model, relationship: string, descriptor: RelationshipDescriptor, query: any, options: any): Promise<any | any[]>;
+    abstract getRelated(model: Model, relationship: string, descriptor: RelationshipDescriptor, options: any): Promise<any | any[]>;
     /**
      * Set the related record(s) for the given relationship. Note: for has-many relationships, the
      * entire set of existing related records should be replaced by the supplied records. The old
@@ -120,10 +120,6 @@ declare abstract class ORMAdapter extends DenaliObject {
      * specific setup that might be required for that Model.
      */
     defineModels(models: typeof Model[]): Promise<void>;
-    /**
-     * The current test transaction, if applicable
-     */
-    testTransaction: any;
     /**
      * Start a transaction that will wrap a test, and be rolled back afterwards. If the data store
      * doesn't support transactions, just omit this method. Only one test transaction will be opened

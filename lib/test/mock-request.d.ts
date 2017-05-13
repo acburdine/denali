@@ -18,7 +18,6 @@ export default class MockRequest extends Transform {
     socket: {
         remoteAddress: string;
     };
-    protected _transform(chunk: string | Buffer | {}, encoding: string, next: () => void): void;
     constructor(options?: {
         method?: string;
         url?: string;
@@ -26,4 +25,5 @@ export default class MockRequest extends Transform {
             [key: string]: string;
         };
     });
+    _transform(chunk: string | Buffer | {}, encoding: string, next: () => void): void;
 }

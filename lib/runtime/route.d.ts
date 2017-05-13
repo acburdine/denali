@@ -1,6 +1,7 @@
 /// <reference types="route-parser" />
 import * as RouteParser from 'route-parser';
 import Action from './action';
+import { Factory } from '../metal/container';
 /**
  * Extends the base RouteParser Route class with some additional properties that Denali tacks on.
  *
@@ -22,7 +23,7 @@ export default class Route extends RouteParser {
     /**
      * The Action class that should be invoked when a request hits this route
      */
-    action: Action;
+    action: Factory<Action>;
     /**
      * The container name of the action
      */

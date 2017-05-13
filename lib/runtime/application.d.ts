@@ -1,7 +1,7 @@
 import Addon from './addon';
 import Router from './router';
 import Logger from './logger';
-import Container from './container';
+import Container from '../metal/container';
 /**
  * Options for instantiating an application
  */
@@ -11,7 +11,6 @@ export interface ApplicationOptions {
     container?: Container;
     environment: string;
     dir: string;
-    logger?: Logger;
     pkg?: any;
 }
 /**
@@ -24,9 +23,9 @@ export interface ApplicationOptions {
  */
 export interface Initializer {
     name: string;
-    initialize(application: Application): Promise<any>;
     before?: string | string[];
     after?: string | string[];
+    initialize(application: Application): Promise<any>;
 }
 /**
  * Application instances are specialized Addons, designed to kick off the loading, mounting, and
@@ -51,7 +50,22 @@ export default class Application extends Addon {
      * @since 0.1.0
      */
     container: Container;
+    /**
+     * Track servers that need to drain before application shutdown
+     */
     protected drainers: (() => Promise<void>)[];
+    /**
+     * The logger instance for the entire application
+     *
+     * @since 0.1.0
+     */
+    logger: Logger;
+    /**
+     * List of child addons for this app (one-level deep only, i.e. no addons-of-addons are included)
+     *
+     * @since 0.1.0
+     */
+    addons: Addon[];
     constructor(options: ApplicationOptions);
     /**
      * Given a directory that contains an addon, load that addon and instantiate it's Addon class.
