@@ -1,9 +1,9 @@
 import {
   template as compileTemplate
 } from 'lodash';
-import Action, { RenderOptions } from 'lib/runtime/action';
+import Action, { RenderOptions } from '../../lib/runtime/action';
 import { ServerResponse } from 'http';
-import View from 'lib/render/view';
+import View from '../../lib/render/view';
 
 let template = compileTemplate(`
   <html>
@@ -41,14 +41,14 @@ let template = compileTemplate(`
     <body>
       <h1 class='headline'>
         <small class='lead'>There was an error with this request:</small>
-        <%= data.error.message %>
+        <%= message %>
       </h1>
       <div class='details'>
-        <% if (data.error.action) { %>
-          <h2 class='source'>from <%= data.error.action %></h2>
+        <% if (action) { %>
+          <h2 class='source'>from <%= action %></h2>
         <% } %>
         <h5>Stacktrace:</h5>
-        <pre><code><%= data.error.stack %></code></pre>
+        <pre><code><%= stack %></code></pre>
       </div>
     </body>
   </html>
@@ -57,6 +57,9 @@ let template = compileTemplate(`
 export default class ErrorView extends View {
 
   async render(action: Action, response: ServerResponse, error: any, options: RenderOptions) {
+    // Action must be defined, or lodash's template will throw an error
+    error.action = error.action || null;
+
     response.setHeader('Content-type', 'text/html');
     response.write(template(error));
     response.end();
