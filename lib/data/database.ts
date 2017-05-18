@@ -23,4 +23,9 @@ export default class DatabaseService extends Service {
     return Model.all(this.container);
   }
 
+  create(modelType: string, data: any, options?: any): Promise<Model> {
+    let Model = this.container.lookup(`model:${ modelType }`);
+    return Model.create(this.container, data, options);
+  }
+
 }

@@ -62,7 +62,7 @@ test('adapter uses model-specific one if found', async (t) => {
   let PostAdapter = {};
   container.register('orm-adapter:post', PostAdapter, { instantiate: false, singleton: true });
 
-  let klass = <typeof Model>container.factoryFor<Model>('model:post').class
+  let klass = <typeof Model>container.factoryFor<Model>('model:post').class;
   t.is(klass.getAdapter(container), PostAdapter);
 });
 
@@ -336,4 +336,54 @@ test('mapRelationships maps over each relationship', async (t) => {
     { name: 'author' },
     { name: 'comments' }
   ]);
+});
+
+test('create creates new model instance and calls save', async (t) => {
+  t.plan(3);
+  class Post extends Model {
+    static title = attr('string');
+    static author = attr('string');
+
+    async save(options?: any): Promise<Model> {
+      t.pass();
+      return this;
+    }
+  }
+  let container = <Container>t.context.container;
+  container.register('model:post', Post);
+  container.register('orm-adapter:post', MemoryAdapter);
+
+  let post = await Post.create(container, {
+    title: 'a',
+    author: 'b'
+  });
+
+  t.is(post.title, 'a', 'Post title should equal title passed to create');
+  t.is(post.author, 'b', 'Post author should equal author passed to create');
+});
+
+test('save works', async (t) => {
+  t.plan(3);
+  class Post extends Model {
+    static title = attr('string');
+    static author = attr('string');
+  }
+  class PostAdapter extends MemoryAdapter {
+    async saveRecord(model: Model, options?: any): Promise<void> {
+      t.is(model.title, 'a', 'Post title should equal the set title');
+      t.is(model.author, 'b', 'Post author should equal the set author');
+
+      return super.saveRecord(model);
+    }
+  }
+  let container = <Container>t.context.container;
+  container.register('model:post', Post);
+  container.register('orm-adapter:post', PostAdapter);
+  let Factory = container.factoryFor<Model>('model:post');
+  let post = Factory.create(container);
+  post.title = 'a';
+  post.author = 'b';
+
+  let result = await post.save();
+  t.true(result instanceof Model);
 });

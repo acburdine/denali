@@ -114,6 +114,16 @@ export default class Model extends DenaliObject {
     return null;
   }
 
+  static async create(container: Container, data: any, options?: any): Promise<Model> {
+    debug(`${ this.type } create`);
+    let Factory = container.factoryFor<Model>(`model:${ this.type }`);
+    let instance = Factory.create(container, {}, options);
+    // We do this here, rather than in buildRecord, in case some of the data supplied isn't an
+    // actual attribute (which means it will get set on the wrapper proxy this way).
+    Object.assign(instance, data);
+    return await instance.save();
+  }
+
   /**
    * The ORM adapter specific to this model type. Defaults to the application's ORM adapter if none
    * for this specific model type is found.
