@@ -310,18 +310,14 @@ test('mapAttributes maps over each attribute', async (t) => {
   let container = <Container>t.context.container;
   container.register('model:post', Post);
   container.register('orm-adapter:post', MemoryAdapter);
-  let post = container.factoryFor<Post>('model:post').create(container, {
-    title: 'foo',
-    publishedAt: new Date()
-  });
 
-  let attributes = post.mapAttributes((value, name) => {
-    return { name, value };
+  let attributes = Post.mapAttributes(container, (descriptor: any, name: string) => {
+    return { name, value: descriptor.type };
   });
 
   t.deepEqual(attributes, [
-    { name: 'title', value: post.title },
-    { name: 'publishedAt', value: post.publishedAt }
+    { name: 'title', value: 'string' },
+    { name: 'publishedAt', value: 'date' }
   ]);
 });
 
@@ -333,9 +329,8 @@ test('mapRelationships maps over each relationship', async (t) => {
   let container = <Container>t.context.container;
   container.register('model:post', Post);
   container.register('orm-adapter:post', MemoryAdapter);
-  let post = container.factoryFor<Post>('model:post').create(container);
 
-  let relationships = post.mapRelationships((descriptor, name) => {
+  let relationships = Post.mapRelationships(container, (descriptor: any, name: string) => {
     return { name };
   });
 

@@ -7,7 +7,7 @@ import {
   lowerFirst } from 'lodash';
 import DenaliObject from '../metal/object';
 import ORMAdapter from './orm-adapter';
-import { RelationshipDescriptor } from './descriptors';
+import { RelationshipDescriptor, Attribute } from './descriptors';
 import Container from '../metal/container';
 
 const debug = createDebug('denali:model');
@@ -124,10 +124,51 @@ export default class Model extends DenaliObject {
     assert(container instanceof Container, `You must supply a container to lookup this model's adapter instead`);
     let adapter = container.lookup(`orm-adapter:${ this.type }`, { loose: true });
     if (!adapter) {
+      // Specific model adapter not found, try application adapter
       adapter = container.lookup('orm-adapter:application', { loose: true });
     }
     assert(adapter, `No orm-adapter found for "${ this.type }", and no fallback "application" orm-adapter found either. Available adapters: ${ container.availableForType('orm-adapter') }`);
     return adapter;
+  }
+
+  /**
+   * Call the supplied callback function for each attribute on this model, passing in the attribute
+   * name and attribute instance.
+   */
+  static mapAttributes<T>(container: Container, fn: (descriptor: Attribute, attributeName: string) => T): T[] {
+    let meta = container.metaFor(this);
+    if (meta.attributesCache == null) {
+      meta.attributesCache = [];
+      let klass = <any>this;
+      for (let key in klass) {
+        if (klass[key] && klass[key].isAttribute) {
+          meta.attributesCache.push(key);
+        }
+      }
+    }
+    return meta.attributesCache.map((attributeName: string) => {
+      return fn((<any>this)[attributeName], attributeName);
+    });
+  }
+
+  /**
+   * Call the supplied callback function for each relationship on this model, passing in the
+   * relationship name and relationship instance.
+   */
+  static mapRelationships<T>(container: Container, fn: (descriptor: RelationshipDescriptor, relationshipName: string) => T): T[] {
+    let meta = container.metaFor(this);
+    let klass = <any>this;
+    if (meta.relationshipsCache == null) {
+      meta.relationshipsCache = [];
+      for (let key in klass) {
+        if (klass[key] && klass[key].isRelationship) {
+          meta.relationshipsCache.push(key);
+        }
+      }
+    }
+    return meta.relationshipsCache.map((relationshipName: string) => {
+      return fn((<any>this)[relationshipName], relationshipName);
+    });
   }
 
   /**
@@ -283,8 +324,8 @@ export default class Model extends DenaliObject {
    * attributes
    */
   inspect(): string {
-    let attributesSummary: string[] = this.mapAttributes((value, attributeName) => {
-      return `${ attributeName }=${ JSON.stringify(value) }`;
+    let attributesSummary: string[] = (<typeof Model>this.constructor).mapAttributes(this.container, (value, attributeName) => {
+      return `${ attributeName }=${ JSON.stringify(this[attributeName]) }`;
     });
     return `<${ startCase(this.type) }:${ this.id == null ? '-new-' : this.id } ${ attributesSummary.join(', ') }>`;
   }
@@ -294,46 +335,6 @@ export default class Model extends DenaliObject {
    */
   toString(): string {
     return `<${ startCase(this.type) }:${ this.id == null ? '-new-' : this.id }>`;
-  }
-
-  /**
-   * Call the supplied callback function for each attribute on this model, passing in the attribute
-   * name and attribute instance.
-   */
-  mapAttributes<T>(fn: (value: any, attributeName: string) => T): T[] {
-    let meta = this.container.metaFor(this.constructor);
-    if (meta.attributesCache == null) {
-      meta.attributesCache = [];
-      let klass = <any>this.constructor;
-      for (let key in klass) {
-        if (klass[key] && klass[key].isAttribute) {
-          meta.attributesCache.push(key);
-        }
-      }
-    }
-    return meta.attributesCache.map((attributeName: string) => {
-      return fn((<any>this)[attributeName], attributeName);
-    });
-  }
-
-  /**
-   * Call the supplied callback function for each relationship on this model, passing in the
-   * relationship name and relationship instance.
-   */
-  mapRelationships<T>(fn: (descriptor: RelationshipDescriptor, relationshipName: string) => T): T[] {
-    let meta = this.container.metaFor(this.constructor);
-    let klass = <any>this.constructor;
-    if (meta.relationshipsCache == null) {
-      meta.relationshipsCache = [];
-      for (let key in klass) {
-        if (klass[key] && klass[key].isRelationship) {
-          meta.relationshipsCache.push(key);
-        }
-      }
-    }
-    return meta.relationshipsCache.map((relationshipName: string) => {
-      return fn((<any>this)[relationshipName], relationshipName);
-    });
   }
 
 }
