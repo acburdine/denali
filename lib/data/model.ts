@@ -169,6 +169,10 @@ export default class Model extends DenaliObject {
     return new Proxy(this, {
 
       get(model: Model, property: string): any {
+        if (property === 'constructor') {
+          return model.constructor;
+        }
+
         if (typeof property === 'string') {
           // Return the attribute value if that's what is requested
           let descriptor = (<any>model.constructor)[property];
