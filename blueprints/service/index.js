@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const denali_cli_1 = require("denali-cli");
+const unwrap_1 = require("../../lib/utils/unwrap");
+/**
+ * Generates a blank service
+ *
+ * @package blueprints
+ */
+class ServiceBlueprint extends denali_cli_1.Blueprint {
+}
+/* tslint:disable:completed-docs typedef */
+ServiceBlueprint.blueprintName = 'service';
+ServiceBlueprint.description = 'Generates a blank service';
+ServiceBlueprint.longDescription = unwrap_1.default `
+    Usage: denali generate service <name> [options]
+
+    Generates a blank service class.
+
+    Guides: http://denalijs.org/master/guides/application/services/
+  `;
+ServiceBlueprint.params = '<name>';
+exports.default = ServiceBlueprint;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL2FidXJkaW5lL1Byb2plY3RzL2RlbmFsaS9tYWluLyIsInNvdXJjZXMiOlsiYmx1ZXByaW50cy9zZXJ2aWNlL2luZGV4LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsMkNBQXVDO0FBQ3ZDLG1EQUE0QztBQUU1Qzs7OztHQUlHO0FBQ0gsc0JBQXNDLFNBQVEsc0JBQVM7O0FBRXJELDJDQUEyQztBQUNwQyw4QkFBYSxHQUFHLFNBQVMsQ0FBQztBQUMxQiw0QkFBVyxHQUFHLDJCQUEyQixDQUFDO0FBQzFDLGdDQUFlLEdBQUcsZ0JBQU0sQ0FBQTs7Ozs7O0dBTTlCLENBQUM7QUFFSyx1QkFBTSxHQUFHLFFBQVEsQ0FBQztBQWIzQixtQ0FlQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IEJsdWVwcmludCB9IGZyb20gJ2RlbmFsaS1jbGknO1xuaW1wb3J0IHVud3JhcCBmcm9tICcuLi8uLi9saWIvdXRpbHMvdW53cmFwJztcblxuLyoqXG4gKiBHZW5lcmF0ZXMgYSBibGFuayBzZXJ2aWNlXG4gKlxuICogQHBhY2thZ2UgYmx1ZXByaW50c1xuICovXG5leHBvcnQgZGVmYXVsdCBjbGFzcyBTZXJ2aWNlQmx1ZXByaW50IGV4dGVuZHMgQmx1ZXByaW50IHtcblxuICAvKiB0c2xpbnQ6ZGlzYWJsZTpjb21wbGV0ZWQtZG9jcyB0eXBlZGVmICovXG4gIHN0YXRpYyBibHVlcHJpbnROYW1lID0gJ3NlcnZpY2UnO1xuICBzdGF0aWMgZGVzY3JpcHRpb24gPSAnR2VuZXJhdGVzIGEgYmxhbmsgc2VydmljZSc7XG4gIHN0YXRpYyBsb25nRGVzY3JpcHRpb24gPSB1bndyYXBgXG4gICAgVXNhZ2U6IGRlbmFsaSBnZW5lcmF0ZSBzZXJ2aWNlIDxuYW1lPiBbb3B0aW9uc11cblxuICAgIEdlbmVyYXRlcyBhIGJsYW5rIHNlcnZpY2UgY2xhc3MuXG5cbiAgICBHdWlkZXM6IGh0dHA6Ly9kZW5hbGlqcy5vcmcvbWFzdGVyL2d1aWRlcy9hcHBsaWNhdGlvbi9zZXJ2aWNlcy9cbiAgYDtcblxuICBzdGF0aWMgcGFyYW1zID0gJzxuYW1lPic7XG5cbn1cbiJdfQ==

@@ -1,0 +1,31 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const denali_cli_1 = require("denali-cli");
+const unwrap_1 = require("../lib/utils/unwrap");
+/**
+ * Remove scaffolded code from your app
+ *
+ * @package commands
+ */
+class DestroyCommand extends denali_cli_1.Command {
+    static configureSubcommands(commandName, yargs, projectPkg) {
+        return denali_cli_1.Blueprint.findAndConfigureBlueprints(yargs, 'destroy', projectPkg);
+    }
+}
+/* tslint:disable:completed-docs typedef */
+DestroyCommand.commandName = 'destroy';
+DestroyCommand.description = 'Remove scaffolded code from your app';
+DestroyCommand.longDescription = unwrap_1.default `
+    Removes the code generated during a \`denali generate\` command. Errs on the
+    side of caution when deleting code - it will only remove files that exactly
+    match the generated output. Modified files will be left untouched. `;
+DestroyCommand.params = '<blueprint>';
+DestroyCommand.flags = {
+    skipPostUninstall: {
+        description: "Don't run any post uninstall hooks for the blueprint",
+        default: false,
+        type: 'boolean'
+    }
+};
+exports.default = DestroyCommand;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGVzdHJveS5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMvYWJ1cmRpbmUvUHJvamVjdHMvZGVuYWxpL21haW4vIiwic291cmNlcyI6WyJjb21tYW5kcy9kZXN0cm95LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsMkNBQWdEO0FBQ2hELGdEQUF5QztBQUd6Qzs7OztHQUlHO0FBQ0gsb0JBQW9DLFNBQVEsb0JBQU87SUFvQnZDLE1BQU0sQ0FBQyxvQkFBb0IsQ0FBQyxXQUFtQixFQUFFLEtBQVUsRUFBRSxVQUFlO1FBQ3BGLE1BQU0sQ0FBQyxzQkFBUyxDQUFDLDBCQUEwQixDQUFDLEtBQUssRUFBRSxTQUFTLEVBQUUsVUFBVSxDQUFDLENBQUM7SUFDNUUsQ0FBQzs7QUFwQkQsMkNBQTJDO0FBQ3BDLDBCQUFXLEdBQUcsU0FBUyxDQUFDO0FBQ3hCLDBCQUFXLEdBQUcsc0NBQXNDLENBQUM7QUFDckQsOEJBQWUsR0FBRyxnQkFBTSxDQUFBOzs7d0VBR3VDLENBQUM7QUFFaEUscUJBQU0sR0FBRyxhQUFhLENBQUM7QUFFdkIsb0JBQUssR0FBRztJQUNiLGlCQUFpQixFQUFFO1FBQ2pCLFdBQVcsRUFBRSxzREFBc0Q7UUFDbkUsT0FBTyxFQUFFLEtBQUs7UUFDZCxJQUFJLEVBQU8sU0FBUztLQUNyQjtDQUNGLENBQUM7QUFsQkosaUNBd0JDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tbWFuZCwgQmx1ZXByaW50IH0gZnJvbSAnZGVuYWxpLWNsaSc7XG5pbXBvcnQgdW53cmFwIGZyb20gJy4uL2xpYi91dGlscy91bndyYXAnO1xuaW1wb3J0ICogYXMgeWFyZ3MgZnJvbSAneWFyZ3MnO1xuXG4vKipcbiAqIFJlbW92ZSBzY2FmZm9sZGVkIGNvZGUgZnJvbSB5b3VyIGFwcFxuICpcbiAqIEBwYWNrYWdlIGNvbW1hbmRzXG4gKi9cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIERlc3Ryb3lDb21tYW5kIGV4dGVuZHMgQ29tbWFuZCB7XG5cbiAgLyogdHNsaW50OmRpc2FibGU6Y29tcGxldGVkLWRvY3MgdHlwZWRlZiAqL1xuICBzdGF0aWMgY29tbWFuZE5hbWUgPSAnZGVzdHJveSc7XG4gIHN0YXRpYyBkZXNjcmlwdGlvbiA9ICdSZW1vdmUgc2NhZmZvbGRlZCBjb2RlIGZyb20geW91ciBhcHAnO1xuICBzdGF0aWMgbG9uZ0Rlc2NyaXB0aW9uID0gdW53cmFwYFxuICAgIFJlbW92ZXMgdGhlIGNvZGUgZ2VuZXJhdGVkIGR1cmluZyBhIFxcYGRlbmFsaSBnZW5lcmF0ZVxcYCBjb21tYW5kLiBFcnJzIG9uIHRoZVxuICAgIHNpZGUgb2YgY2F1dGlvbiB3aGVuIGRlbGV0aW5nIGNvZGUgLSBpdCB3aWxsIG9ubHkgcmVtb3ZlIGZpbGVzIHRoYXQgZXhhY3RseVxuICAgIG1hdGNoIHRoZSBnZW5lcmF0ZWQgb3V0cHV0LiBNb2RpZmllZCBmaWxlcyB3aWxsIGJlIGxlZnQgdW50b3VjaGVkLiBgO1xuXG4gIHN0YXRpYyBwYXJhbXMgPSAnPGJsdWVwcmludD4nO1xuXG4gIHN0YXRpYyBmbGFncyA9IHtcbiAgICBza2lwUG9zdFVuaW5zdGFsbDoge1xuICAgICAgZGVzY3JpcHRpb246IFwiRG9uJ3QgcnVuIGFueSBwb3N0IHVuaW5zdGFsbCBob29rcyBmb3IgdGhlIGJsdWVwcmludFwiLFxuICAgICAgZGVmYXVsdDogZmFsc2UsXG4gICAgICB0eXBlOiA8YW55Pidib29sZWFuJ1xuICAgIH1cbiAgfTtcblxuICBwcm90ZWN0ZWQgc3RhdGljIGNvbmZpZ3VyZVN1YmNvbW1hbmRzKGNvbW1hbmROYW1lOiBzdHJpbmcsIHlhcmdzOiBhbnksIHByb2plY3RQa2c6IGFueSk6IHlhcmdzLkFyZ3Yge1xuICAgIHJldHVybiBCbHVlcHJpbnQuZmluZEFuZENvbmZpZ3VyZUJsdWVwcmludHMoeWFyZ3MsICdkZXN0cm95JywgcHJvamVjdFBrZyk7XG4gIH1cblxufVxuIl19

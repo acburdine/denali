@@ -1,0 +1,15 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
+const ava_1 = require("ava");
+const fs = require("fs-extra");
+const path = require("path");
+const denali_1 = require("denali");
+ava_1.default('addon blueprint > generates correctly', (t) => tslib_1.__awaiter(this, void 0, void 0, function* () {
+    let blueprint = new denali_1.BlueprintAcceptanceTest('addon');
+    t.context.dir = blueprint.dir;
+    t.context.gitignore = path.join(blueprint.dir, 'test', '.gitignore');
+    yield blueprint.generate('test');
+    t.true(fs.existsSync(t.context.gitignore), '.gitignore file should exist');
+}));
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYWRkb24tdGVzdC5qcyIsInNvdXJjZVJvb3QiOiIvVXNlcnMvYWJ1cmRpbmUvUHJvamVjdHMvZGVuYWxpL21haW4vIiwic291cmNlcyI6WyJ0ZXN0L2FjY2VwdGFuY2UvYmx1ZXByaW50cy9hZGRvbi10ZXN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7OztBQUFBLDZCQUF1QjtBQUN2QiwrQkFBK0I7QUFDL0IsNkJBQTZCO0FBQzdCLG1DQUFpRDtBQUVqRCxhQUFJLENBQUMsdUNBQXVDLEVBQUUsQ0FBTyxDQUFDO0lBQ3BELElBQUksU0FBUyxHQUFHLElBQUksZ0NBQXVCLENBQUMsT0FBTyxDQUFDLENBQUM7SUFDckQsQ0FBQyxDQUFDLE9BQU8sQ0FBQyxHQUFHLEdBQUcsU0FBUyxDQUFDLEdBQUcsQ0FBQztJQUM5QixDQUFDLENBQUMsT0FBTyxDQUFDLFNBQVMsR0FBRyxJQUFJLENBQUMsSUFBSSxDQUFDLFNBQVMsQ0FBQyxHQUFHLEVBQUUsTUFBTSxFQUFFLFlBQVksQ0FBQyxDQUFDO0lBRXJFLE1BQU0sU0FBUyxDQUFDLFFBQVEsQ0FBQyxNQUFNLENBQUMsQ0FBQztJQUNqQyxDQUFDLENBQUMsSUFBSSxDQUFDLEVBQUUsQ0FBQyxVQUFVLENBQUMsQ0FBQyxDQUFDLE9BQU8sQ0FBQyxTQUFTLENBQUMsRUFBRSw4QkFBOEIsQ0FBQyxDQUFDO0FBQzdFLENBQUMsQ0FBQSxDQUFDLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgdGVzdCBmcm9tICdhdmEnO1xuaW1wb3J0ICogYXMgZnMgZnJvbSAnZnMtZXh0cmEnO1xuaW1wb3J0ICogYXMgcGF0aCBmcm9tICdwYXRoJztcbmltcG9ydCB7IEJsdWVwcmludEFjY2VwdGFuY2VUZXN0IH0gZnJvbSAnZGVuYWxpJztcblxudGVzdCgnYWRkb24gYmx1ZXByaW50ID4gZ2VuZXJhdGVzIGNvcnJlY3RseScsIGFzeW5jICh0KSA9PiB7XG4gIGxldCBibHVlcHJpbnQgPSBuZXcgQmx1ZXByaW50QWNjZXB0YW5jZVRlc3QoJ2FkZG9uJyk7XG4gIHQuY29udGV4dC5kaXIgPSBibHVlcHJpbnQuZGlyO1xuICB0LmNvbnRleHQuZ2l0aWdub3JlID0gcGF0aC5qb2luKGJsdWVwcmludC5kaXIsICd0ZXN0JywgJy5naXRpZ25vcmUnKTtcblxuICBhd2FpdCBibHVlcHJpbnQuZ2VuZXJhdGUoJ3Rlc3QnKTtcbiAgdC50cnVlKGZzLmV4aXN0c1N5bmModC5jb250ZXh0LmdpdGlnbm9yZSksICcuZ2l0aWdub3JlIGZpbGUgc2hvdWxkIGV4aXN0Jyk7XG59KTtcbiJdfQ==

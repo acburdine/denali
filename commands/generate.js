@@ -1,0 +1,34 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const denali_cli_1 = require("denali-cli");
+const unwrap_1 = require("../lib/utils/unwrap");
+/**
+ * Scaffold code for your app.
+ *
+ * @package commands
+ */
+class GenerateCommand extends denali_cli_1.Command {
+    static configureSubcommands(commandName, yargs, projectPkg) {
+        return denali_cli_1.Blueprint.findAndConfigureBlueprints(yargs, 'generate', projectPkg);
+    }
+}
+/* tslint:disable:completed-docs typedef */
+GenerateCommand.commandName = 'generate';
+GenerateCommand.description = 'Scaffold code for your app.';
+GenerateCommand.longDescription = unwrap_1.default `
+    Usage: denali generate <blueprint> [options]
+
+    Generates code from the given blueprint. Blueprints are templates used by the
+    generate command, but they can go beyond simple templating (i.e. installing
+    addons).
+  `;
+GenerateCommand.params = '<blueprint>';
+GenerateCommand.flags = {
+    skipPostInstall: {
+        description: "Don't run any post install hooks for the blueprint",
+        default: false,
+        type: 'boolean'
+    }
+};
+exports.default = GenerateCommand;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZ2VuZXJhdGUuanMiLCJzb3VyY2VSb290IjoiL1VzZXJzL2FidXJkaW5lL1Byb2plY3RzL2RlbmFsaS9tYWluLyIsInNvdXJjZXMiOlsiY29tbWFuZHMvZ2VuZXJhdGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7QUFBQSwyQ0FBZ0Q7QUFDaEQsZ0RBQXlDO0FBR3pDOzs7O0dBSUc7QUFDSCxxQkFBcUMsU0FBUSxvQkFBTztJQXVCeEMsTUFBTSxDQUFDLG9CQUFvQixDQUFDLFdBQW1CLEVBQUUsS0FBVSxFQUFFLFVBQWU7UUFDcEYsTUFBTSxDQUFDLHNCQUFTLENBQUMsMEJBQTBCLENBQUMsS0FBSyxFQUFFLFVBQVUsRUFBRSxVQUFVLENBQUMsQ0FBQztJQUM3RSxDQUFDOztBQXZCRCwyQ0FBMkM7QUFDcEMsMkJBQVcsR0FBRyxVQUFVLENBQUM7QUFDekIsMkJBQVcsR0FBRyw2QkFBNkIsQ0FBQztBQUM1QywrQkFBZSxHQUFHLGdCQUFNLENBQUE7Ozs7OztHQU05QixDQUFDO0FBRUssc0JBQU0sR0FBRyxhQUFhLENBQUM7QUFFdkIscUJBQUssR0FBRztJQUNiLGVBQWUsRUFBRTtRQUNmLFdBQVcsRUFBRSxvREFBb0Q7UUFDakUsT0FBTyxFQUFFLEtBQUs7UUFDZCxJQUFJLEVBQU8sU0FBUztLQUNyQjtDQUNGLENBQUM7QUFyQkosa0NBMkJDIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgQ29tbWFuZCwgQmx1ZXByaW50IH0gZnJvbSAnZGVuYWxpLWNsaSc7XG5pbXBvcnQgdW53cmFwIGZyb20gJy4uL2xpYi91dGlscy91bndyYXAnO1xuaW1wb3J0ICogYXMgeWFyZ3MgZnJvbSAneWFyZ3MnO1xuXG4vKipcbiAqIFNjYWZmb2xkIGNvZGUgZm9yIHlvdXIgYXBwLlxuICpcbiAqIEBwYWNrYWdlIGNvbW1hbmRzXG4gKi9cbmV4cG9ydCBkZWZhdWx0IGNsYXNzIEdlbmVyYXRlQ29tbWFuZCBleHRlbmRzIENvbW1hbmQge1xuXG4gIC8qIHRzbGludDpkaXNhYmxlOmNvbXBsZXRlZC1kb2NzIHR5cGVkZWYgKi9cbiAgc3RhdGljIGNvbW1hbmROYW1lID0gJ2dlbmVyYXRlJztcbiAgc3RhdGljIGRlc2NyaXB0aW9uID0gJ1NjYWZmb2xkIGNvZGUgZm9yIHlvdXIgYXBwLic7XG4gIHN0YXRpYyBsb25nRGVzY3JpcHRpb24gPSB1bndyYXBgXG4gICAgVXNhZ2U6IGRlbmFsaSBnZW5lcmF0ZSA8Ymx1ZXByaW50PiBbb3B0aW9uc11cblxuICAgIEdlbmVyYXRlcyBjb2RlIGZyb20gdGhlIGdpdmVuIGJsdWVwcmludC4gQmx1ZXByaW50cyBhcmUgdGVtcGxhdGVzIHVzZWQgYnkgdGhlXG4gICAgZ2VuZXJhdGUgY29tbWFuZCwgYnV0IHRoZXkgY2FuIGdvIGJleW9uZCBzaW1wbGUgdGVtcGxhdGluZyAoaS5lLiBpbnN0YWxsaW5nXG4gICAgYWRkb25zKS5cbiAgYDtcblxuICBzdGF0aWMgcGFyYW1zID0gJzxibHVlcHJpbnQ+JztcblxuICBzdGF0aWMgZmxhZ3MgPSB7XG4gICAgc2tpcFBvc3RJbnN0YWxsOiB7XG4gICAgICBkZXNjcmlwdGlvbjogXCJEb24ndCBydW4gYW55IHBvc3QgaW5zdGFsbCBob29rcyBmb3IgdGhlIGJsdWVwcmludFwiLFxuICAgICAgZGVmYXVsdDogZmFsc2UsXG4gICAgICB0eXBlOiA8YW55Pidib29sZWFuJ1xuICAgIH1cbiAgfTtcblxuICBwcm90ZWN0ZWQgc3RhdGljIGNvbmZpZ3VyZVN1YmNvbW1hbmRzKGNvbW1hbmROYW1lOiBzdHJpbmcsIHlhcmdzOiBhbnksIHByb2plY3RQa2c6IGFueSk6IHlhcmdzLkFyZ3Yge1xuICAgIHJldHVybiBCbHVlcHJpbnQuZmluZEFuZENvbmZpZ3VyZUJsdWVwcmludHMoeWFyZ3MsICdnZW5lcmF0ZScsIHByb2plY3RQa2cpO1xuICB9XG5cbn1cbiJdfQ==
