@@ -215,7 +215,12 @@ export default class Model extends DenaliObject {
     // tslint:disable:completed-docs
     return new Proxy(this, {
 
-      get(model: Model, property: string): any {
+      get(model: Model, property: any): any {
+        // If the property is not a string, defer to model instance
+        if (typeof property !== 'string') {
+          return model[property];
+        }
+
         if (isAttribute(model, property)) {
           return model.adapter.getAttribute(model, property);
         }

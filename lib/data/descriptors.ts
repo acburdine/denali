@@ -23,7 +23,7 @@ export class Descriptor extends DenaliObject {
   constructor(type: string, options?: any) {
     super();
     this.type = type;
-    this.options = options;
+    this.options = options || {};
   }
 
 }
